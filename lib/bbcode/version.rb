@@ -1,0 +1,3 @@
+module Bbcode
+  VERSION = "0.0.1"
+end
