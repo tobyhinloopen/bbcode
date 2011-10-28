@@ -15,6 +15,9 @@ Currently supported by parser:
 * Quoted arguments with escaped characters like
   `[abbr font="Arial, Verdana, \"Courier new\"" title='It\'s an example!']...[/]`
 
+For a well-defined, up-to-date list of supported tags & syntaxes, check the
+test's sources in the spec-folder.
+
 Current known issues:
 ---------------------
 * Arguments cannot contain a `]` character, even when escaped in a quoted
