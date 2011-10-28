@@ -58,11 +58,13 @@ node-set to a string by using the current handler by using `to_s`, or extract
 the node-set to print the plain bbcode content or use another handler to render
 the node-set.
 
-This way, you can customize the behavior of the handler within different bbcode
-tags. For example, you could use a different html handler to convert a quote's
-content. If a quoted message contains images, video's or other quotes, you
-might want to strip the nested quotes and skip the rendering of the image/video
-and render a link to the image/video instead.
+Nested handlers:
+----------------
+You can customize the behavior of the handler within different bbcode tags. For
+example, you could use a different html handler to convert a quote's content.
+If a quoted message contains images, video's or other quotes, you might want to
+strip the nested quotes and skip the rendering of the image/video and render a
+link to the image/video instead.
 
 ```ruby
 msg = "[quote]\
