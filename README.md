@@ -13,7 +13,7 @@ Currently supported by parser:
 * Named arguments as key=value or key:value pairs like
   `[table cellpadding=0 border:100]...[/]`
 * Quoted arguments with escaped characters like
-  `[abbr font="Arial, Verdana, \"Courier new\"" title='It\'s an example with a ] in it being ignored!']...[/]`
+  `[abbr title='It\'s an example with a ] in it being ignored!']...[/]`
 
 For a well-defined, up-to-date list of supported tags & syntaxes, check the
 test's sources in the spec-folder.
