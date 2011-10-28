@@ -17,7 +17,7 @@ module Bbcode
 				skip_value = key.blank? && value.blank?
 				key = next_anonymous_key+=1 if key.blank?
 				unless skip_value
-					value = value[1...-1].gsub UNESCAPE_PATTERN, "\\1" if ["'", '"'].include? value[0]
+					value = value[1...-1].gsub UNESCAPE_PATTERN, "\\1" if value[0] == value[-1] && ["'", '"'].include?(value[0])
 					attrs[key] = value
 				end
 			end
