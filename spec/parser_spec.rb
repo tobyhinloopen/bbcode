@@ -39,6 +39,11 @@ describe Bbcode::Parser do
 			eql([:start_element, :url, { 0 => "http://www.google.com/" }])
 	end
 
+	it "should parse an unnamed argument without the equals-to sign" do
+		get_parser_results("[url'http://www.google.nl/']")[0].should \
+			eql([:start_element, :url, { 0 => "http://www.google.nl/" }])
+	end
+
 	it "should parse multiple unnamed arguments" do
 		get_parser_results("[video=640, 480,,1]")[0].should \
 			eql([:start_element, :video, { 0 => "640", 1 => "480", 3 => "1" }]);
@@ -49,6 +54,10 @@ describe Bbcode::Parser do
 			eql([:start_element, :abbr, { 0 => "It's a test", 1 => '...a "test"!' }])
 	end
 
+	it "should ignore the quotes of an attribute value if the quote-pair is incomplete or incorrect" do
+		get_parser_results(%([a "test]))[0].should eql([:start_element, :a, { 0 => "\"test" }])
+	end
+
 	it "should parse key=value attribute pairs" do
 		get_parser_results(%([table=list width = 600 height=300 background-color= \"black\" background-image =url('image.jpg')]))[0].should \
 			eql([:start_element, :table, { 0 => "list", :width => "600", :height => "300", :"background-color" => "black", :"background-image" => "url('image.jpg')" }.with_indifferent_access])
@@ -57,5 +66,10 @@ describe Bbcode::Parser do
 	it "should parse key:value attribute pairs separated with optional comma" do
 		get_parser_results(%([alt ding: a, banana: b]))[0].should \
 			eql([:start_element, :alt, { :ding => "a", :banana => "b" }.with_indifferent_access])
+	end
+
+	it "should ignore the ] in the attribute value" do
+		get_parser_results(%([testing "with a ] in my attribute!"]))[0].should \
+			eql([:start_element, :testing, { 0 => "with a ] in my attribute!" }])
 	end
 end
