@@ -23,7 +23,7 @@ describe Bbcode::Parser do
 		get_parser_results("[b]text")[1].should eql([:text, "text"])
 	end
 
-	it "should process an anonymous closing tag" do
+	it "should parse an anonymous closing tag" do
 		get_parser_results("[/]")[0].should eql([:end_element, nil])
 	end
 
@@ -32,9 +32,12 @@ describe Bbcode::Parser do
 	end
 
 	it "should parse multiple unnamed arguments" do
-		get_parser_results("[video=640, 480]")[0].should eql([:start_element, :video, { 0 => "640", 1 => "480" }]);
+		get_parser_results("[video=640, 480,,1]")[0].should eql([:start_element, :video, { 0 => "640", 1 => "480", 3 => "1" }]);
 	end
 
+	it "should parse a quoted argument with escaped characters" do
+		get_parser_results(%([abbr='It\\'s a test', "...a \\"test\\"!"]))[0].should eql([:start_element, :abbr, { 0 => "It's a test", 1 => '...a "test"!' }])
+	end
 end
 
 # [b]vet[i] en schuin[/b] maar niet vet[/i] of schuin\

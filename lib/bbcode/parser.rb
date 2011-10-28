@@ -5,7 +5,7 @@ module Bbcode
 		# attribute_pattern to match the attributes and ensure the tag ends with
 		# a ].
 		BBCODE_PATTERN = /\[(\/?)([a-z0-9_-]*)([^\]]*)\]/i
-		ATTRIBUTE_PATTERN = /(?:\s*(?:([a-z0-9_-]+)|^)\s*[:=]\s*)?(\"[^\"]*(?:\\\"[^\"]*)*\"|\'[^\']*(?:\\\'[^\'])*\'|[^\]\s,]+(?:,[^\]\s,]+)*)\s*,?/i
+		ATTRIBUTE_PATTERN = /(?:\s*(?:([a-z0-9_-]+)|^)\s*[:=]\s*)?("[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*'|[^\]\s,]+|(?<=,)(?=\s*,))\s*,?/i
 		UNESCAPE_PATTERN = /\\(.)/
 
 		def parse_attributes_string( attributes_string )
@@ -14,9 +14,12 @@ module Bbcode
 
 			next_anonymous_key = -1
 			attributes_string.scan ATTRIBUTE_PATTERN do |key, value|
-				key = next_anonymous_key+=1 if key.nil?
-				value = value[1...-1].gsub UNESCAPE_PATTERN, "\\1" if ["'", '"'].include? value[0]
-				attrs[key] = value
+				skip_value = key.blank? && value.blank?
+				key = next_anonymous_key+=1 if key.blank?
+				unless skip_value
+					value = value[1...-1].gsub UNESCAPE_PATTERN, "\\1" if ["'", '"'].include? value[0]
+					attrs[key] = value
+				end
 			end
 
 			return attrs
