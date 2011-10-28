@@ -23,24 +23,26 @@ None! (but a lot of stuff needs to be done)
 
 How it might will work:
 -----------------------
-	msg = "[b]bold[/b] [color=red]red[/] [url=http://www.google.com/]google![/url]"
+```ruby
+msg = "[b]bold[/b] [color=red]red[/] [url=http://www.google.com/]google![/url]"
 
-	Bbcode::Base.register_handler :text, Bbcode::Handler.new({
-		:url => ->(args, &block) { "#{block.call} (#{args[0]})" }
-	})
-	msg.as_bbcode.to(:text)
-	# => bold red google! (http://www.google.com/)
+Bbcode::Base.register_handler :text, Bbcode::Handler.new({
+	:url => ->(args, &block) { "#{block.call} (#{args[0]})" }
+})
+msg.as_bbcode.to(:text)
+# => bold red google! (http://www.google.com/)
 
-	Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new({
-		:b => :strong,
-		:i => :em,
-		:u => [ :span, { :class => "underline" } ]
-		:url => ->(args, &block) {
-			%(<a href="#{CGI.escapeHTML(args[0])}" target="#{CGI.escapeHTML(args[1] || "_blank")}">#{block.call}</a>)
-		},
-		:color => ->(args, &block) {
-			%(<span style="color: #{CGI.escapeHTML(args[0])};">#{block.call}</span>)
-		}
-	})
-	msg.as_bbcode.to(:html)
-	# => <strong>bold</strong> <span style="color: red;">red</spa> <a href="http://www.google.com/" target="_blank">google!</a>
+Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new({
+	:b => :strong,
+	:i => :em,
+	:u => [ :span, { :class => "underline" } ]
+	:url => ->(args, &block) {
+		%(<a href="#{CGI.escapeHTML(args[0])}" target="#{CGI.escapeHTML(args[1] || "_blank")}">#{block.call}</a>)
+	},
+	:color => ->(args, &block) {
+		%(<span style="color: #{CGI.escapeHTML(args[0])};">#{block.call}</span>)
+	}
+})
+msg.as_bbcode.to(:html)
+# => <strong>bold</strong> <span style="color: red;">red</spa> <a href="http://www.google.com/" target="_blank">google!</a>
+```
