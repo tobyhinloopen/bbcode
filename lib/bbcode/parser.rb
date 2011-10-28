@@ -1,10 +1,6 @@
 module Bbcode
 	class Parser
-		# Todo: ] is now not allowed in quoted attributes of bbcode tags.
-		# Update the bbcode_pattern to only match the beginning of a tag, use
-		# attribute_pattern to match the attributes and ensure the tag ends with
-		# a ].
-		BBCODE_PATTERN = /\[(\/?)([a-z0-9_-]*)([^\]]*)\]/i
+		BBCODE_TAG_PATTERN = /\[(\/?)([a-z0-9_-]*)(\s*=?(?:(?:\s*(?:(?:[a-z0-9_-]+)|(?<=\=))\s*[:=]\s*)?(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*'|[^\]\s,]+|(?<=,)(?=\s*,))\s*,?\s*)*)\]/i
 		ATTRIBUTE_PATTERN = /(?:\s*(?:([a-z0-9_-]+)|^)\s*[:=]\s*)?("[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*'|[^\]\s,]+|(?<=,)(?=\s*,))\s*,?/i
 		UNESCAPE_PATTERN = /\\(.)/
 
@@ -55,7 +51,7 @@ module Bbcode
 		def parse(document, &block)
 			block.call :start_document
 
-			while !(match = BBCODE_PATTERN.match(document)).nil?
+			while !(match = BBCODE_TAG_PATTERN.match(document)).nil?
 				offset = match.begin(0)
 				elem_source = match[0]
 
