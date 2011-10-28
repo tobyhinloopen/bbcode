@@ -1,5 +1,6 @@
 require "bbcode/version"
+require "bbcode/parser"
 
 module Bbcode
-  # Your code goes here...
+	
 end
