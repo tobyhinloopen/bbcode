@@ -69,7 +69,7 @@ describe Bbcode::Parser do
 	end
 
 	it "should ignore the ] in the attribute value" do
-		get_parser_results(%([testing "with a ] in my attribute!"]))[0].should \
-			eql([:start_element, :testing, { 0 => "with a ] in my attribute!" }])
+		get_parser_results(%([testing "with a ] in my attribute!"])).should \
+			eql([[:start_element, :testing, { 0 => "with a ] in my attribute!" }]])
 	end
 end
