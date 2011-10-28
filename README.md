@@ -21,8 +21,8 @@ Current known issues:
 ---------------------
 None! (but a lot of stuff needs to be done)
 
-How it might will work:
------------------------
+How it will work:
+-----------------
 ```ruby
 msg = "[b]bold[/b] [color=red]red[/] [url=http://www.google.com/]google![/url]"
 
