@@ -9,7 +9,7 @@ module Bbcode
 		UNESCAPE_PATTERN = /\\(.)/
 
 		def parse_attributes_string( attributes_string )
-			attrs = {}
+			attrs = HashWithIndifferentAccess.new
 			return attrs if attributes_string.nil?
 
 			next_anonymous_key = -1
