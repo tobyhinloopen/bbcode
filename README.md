@@ -17,7 +17,7 @@ Currently supported by parser:
 
 Current known issues:
 ---------------------
-* Arguments cannot contain a "]" character, even when escaped in a quoted
+* Arguments cannot contain a `]` character, even when escaped in a quoted
   argument value. For example, parsing `[data="te]st"]` will only parse a
   bbcode tag `data` with as first argument `"te`. The final `st"]` will be
   considered text.
