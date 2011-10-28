@@ -9,11 +9,11 @@ module Bbcode
 		UNESCAPE_PATTERN = /\\(.)/
 
 		def parse_attributes_string( attributes_string )
-			attrs = {}#.with_indifferent_access
+			attrs = {}
 			return attrs if attributes_string.nil?
 
 			next_anonymous_key = -1
-			attributes_string.scan ATTRIBUTE_PATTERN do |match, key, value|
+			attributes_string.scan ATTRIBUTE_PATTERN do |key, value|
 				key = next_anonymous_key+=1 if key.nil?
 				value = value[1...-1].gsub UNESCAPE_PATTERN, "\\1" if ["'", '"'].include? value[0]
 				attrs[key] = value
