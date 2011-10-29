@@ -43,7 +43,7 @@ module Bbcode
 		def parse( document, &handler )
 			@handler = handler
 			@tokenizer.tokenize document do |*args|
-				self.send *args if [:start_document, :end_document, :start_element, :end_element, :text].include?(args.first)
+				self.send *args if [:start_element, :end_element, :text].include?(args.first)
 			end
 		end
 	end
