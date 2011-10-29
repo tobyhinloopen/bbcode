@@ -36,4 +36,18 @@ describe Bbcode::Parser do
 			      [ :start_element, :url, { 0 => "http://www.google.com/" }, "[url=http://www.google.com/]" ],
 			      [ :end_element, :url, "[/url]" ] ])
 	end
+
+	it "should fire an interrupt for incorrect nested elements" do
+		get_parser_results("[b]bold[i]and italic[/b]but not bold[/i]nor italic").should \
+			eql([ [ :start_element, :b, {} ],
+			      [ :text, "bold" ],
+			      [ :start_element, :i, {} ],
+			      [ :text, "and italic" ],
+			      [ :interrupt_element, :i ],
+			      [ :end_element, :b ],
+			      [ :continue_element, :i ],
+			      [ :text, "but not bold" ],
+			      [ :end_element, :i ],
+			      [ :text, "nor italic" ] ])
+	end
 end
