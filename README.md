@@ -7,6 +7,7 @@ into HTML yet.
 Currently supported by parser:
 ------------------------------
 * Regular bbcode tags like `[i]italic[/i]`
+* Incorrect nesting of tags like `[b]bold[i]and italic[/b]but not bold[/i]`
 * Anonymous closing tags like `[b]bold[/]`
 * Unnamed, comma-separated arguments like `[video=640, 480]...[/]`
 * Named arguments as key=value or key:value pairs like
