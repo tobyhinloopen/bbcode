@@ -1,26 +1,22 @@
 require 'spec_helper.rb'
 
-def get_tokenizer_results(string, strip_start_and_end = true, strip_source = true)
+def get_tokenizer_results(string, strip_source = true)
 	tokenizer = Bbcode::Tokenizer.new
 	results = []
 	tokenizer.tokenize string do |*args|
 		args.pop if strip_source && [:end_element, :start_element].include?(args.first) # pop the source
 		results.push args
 	end
-	strip_start_and_end ? results[1...-1] : results
+	results
 end
 
 describe Bbcode::Tokenizer do
-	it "should send a start_document and end_document event" do
-		get_tokenizer_results("", false).should eql([[:start_document], [:end_document]])
-	end
-
 	it "should parse a simple bbcode tag" do
 		get_tokenizer_results("[b]")[0].should eql([:start_element, :b, {}])
 	end
 
 	it "should provide the actual source of the bbcode tag" do
-		get_tokenizer_results("[b a = 1, b:2, c='1'][/][url=http://www.google.com/][/url]", true, false).should \
+		get_tokenizer_results("[b a = 1, b:2, c='1'][/][url=http://www.google.com/][/url]", false).should \
 			eql([ [ :start_element, :b, { :a => "1", :b => "2", :c => "1" }.with_indifferent_access, "[b a = 1, b:2, c='1']"],
 			      [ :end_element, nil, "[/]" ],
 			      [ :start_element, :url, { 0 => "http://www.google.com/" }, "[url=http://www.google.com/]" ],

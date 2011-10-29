@@ -26,11 +26,6 @@ module Bbcode
 		# events.
 		#
 		# The block is called with the following events:
-		# - :start_document
-		#   Indicates the start of a document. Currently only occurs once.
-		# - :end_document
-		#   Indicates the end of a document. This event is guaranteed to occur as
-		#   many times as :start_document occurs.
 		# - :text, text
 		#   A text-event with an additional parameter containing the actual text.
 		# - :start_element, element_name, element_arguments
@@ -50,8 +45,6 @@ module Bbcode
 		# In some cases, the text might be separated to multiple :text events, even
 		# though there are no nodes in between.
 		def tokenize( document, &handler )
-			handler.call :start_document
-
 			while !(match = BBCODE_TAG_PATTERN.match(document)).nil?
 				offset = match.begin(0)
 				elem_source = match[0]
@@ -76,7 +69,6 @@ module Bbcode
 			end
 
 			handler.call :text, document unless document.length == 0
-			handler.call :end_document
 		end
 	end
 end

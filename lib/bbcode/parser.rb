@@ -4,22 +4,13 @@ module Bbcode
 		attr_accessor :tokenizer
 
 		def initialize( tokenizer = nil )
+			@tags_stack = []
 			self.tokenizer = tokenizer unless tokenizer.blank?
 		end
 
 		def tokenizer=( tokenizer )
 			raise "#{tokenizer.inspect} appears not to be a valid tokenizer for it does not respond to :tokenize" unless tokenizer.respond_to?(:tokenize)
 			@tokenizer = tokenizer
-		end
-
-		def start_document
-			@tags_stack = []
-			@handler.call :start_document
-		end
-
-		def end_document
-			@tags_stack = nil
-			@handler.call :end_document
 		end
 
 		def text( text )
