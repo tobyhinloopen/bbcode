@@ -50,7 +50,7 @@ module Bbcode
 		# In some cases, the text might be separated to multiple :text events, even
 		# though there are no nodes in between.
 		def tokenize( document, &handler )
-			block.call :start_document
+			handler.call :start_document
 
 			while !(match = BBCODE_TAG_PATTERN.match(document)).nil?
 				offset = match.begin(0)
