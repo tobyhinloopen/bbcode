@@ -50,4 +50,23 @@ describe Bbcode::Parser do
 			      [ :end_element, :i ],
 			      [ :text, "nor italic" ] ])
 	end
+
+	it "should fire multiple interrupts for multiple incorrect nested elements" do
+		get_parser_results("[u]a[b]b[i]c[/u]d[/i]e[/b]").should \
+			eql([ [ :start_element, :u, {} ],
+			      [ :text, "a" ],
+			      [ :start_element, :b, {} ],
+			      [ :text, "b" ],
+			      [ :start_element, :i, {} ],
+			      [ :text, "c" ],
+			      [ :interrupt_element, :i ],
+			      [ :interrupt_element, :b ],
+			      [ :end_element, :u ],
+			      [ :continue_element, :b ],
+			      [ :continue_element, :i ],
+			      [ :text, "d" ],
+			      [ :end_element, :i ],
+			      [ :text, "e" ],
+			      [ :end_element, :b ]])
+	end
 end
