@@ -11,6 +11,10 @@ def get_parser_results(string, strip_source = true)
 end
 
 describe Bbcode::Parser do
+	it "should parse text without bbcode" do
+		get_tokenizer_results("Hello, world!")[0].should eql([:text, "Hello, world!"])
+	end
+
 	it "should parse a simple bbcode element" do
 		get_parser_results("[b]text[/b]").should \
 			eql([ [ :start_element, :b, {} ],
