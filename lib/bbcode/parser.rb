@@ -18,7 +18,7 @@ module Bbcode
 		end
 
 		def end_document
-			@tegs_stack = nil
+			@tags_stack = nil
 			@handler.call :end_document
 		end
 
