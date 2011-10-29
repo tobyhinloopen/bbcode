@@ -1,5 +1,5 @@
 require "bbcode/version"
-require "bbcode/parser"
+require "bbcode/tokenizer"
 
 module Bbcode
 	
