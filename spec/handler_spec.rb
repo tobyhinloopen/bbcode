@@ -37,6 +37,14 @@ describe Bbcode::Handler do
 		get_handled_parser_result("[b]bold[/]").should eql("<strong>bold</strong>")
 	end
 
+	it "should ignore unregistered elements" do
+		get_handled_parser_result("[foo]text[/foo]").should eql("[foo]text[/foo]")
+	end
+
+	it "should handle bbcode inside an ignored element" do
+		get_handled_parser_result("[foo][b]bold[/b][/foo]").should eql("[foo]<strong>bold</strong>[/foo]")
+	end
+
 	it "should handle nested bbcode tags" do
 		get_handled_parser_result("[b]bold and [i]italic[/][/]").should \
 			eql("<strong>bold and <em>italic</em></strong>")
