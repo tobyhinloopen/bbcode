@@ -6,6 +6,7 @@ def get_handled_parser_result( string )
 		:i => ->(element){ "<em>#{element.content}</em>" },
 		:url => ->(element){ %(<a href="#{CGI.escapeHTML(element[0])}">#{element.content}</a>) },
 		:txt => ->(element){ "#{element.content.source}" },
+		:color => ->(element){ %(<span style="color: #{CGI.escapeHTML(element[0])};">#{element.content}</span>) },
 		:"#text" => ->(text){ CGI.escapeHTML(text) }
 	})
 	parser = Bbcode::Parser.new Bbcode::Tokenizer.new
@@ -39,6 +40,11 @@ describe Bbcode::Handler do
 	it "should handle basic tag interrupts" do
 		get_handled_parser_result("[b]bold[i]and italic[/b]only italic[/i]").should \
 			eql("<strong>bold<em>and italic</em></strong><em>only italic</em>")
+	end
+
+	it "should resend attributes in tag interrupts" do
+		get_handled_parser_result("[b]bold[color=red]and red[/b]but not bold[/]").should \
+			eql(%(<strong>bold<span style="color: red;">and red</span></strong><span style="color: red;">but not bold</span>))
 	end
 
 	it "should be able to render the source of an element's contents" do
