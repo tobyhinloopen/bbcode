@@ -21,7 +21,7 @@ module Bbcode
 		end
 
 		def source
-			"#{@start_source}#{@childs.map(&:source).join}#{@end_source}"
+			"#{@start_source}#{@element.content.source}#{@end_source}"
 		end
 	end
 end

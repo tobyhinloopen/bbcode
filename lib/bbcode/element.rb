@@ -18,24 +18,20 @@ module Bbcode
 			@handler_element.attributes[key]
 		end
 
-		def content
-			@handler_element.childs.map{ |child_handler_element|
-				child_handler_element.is_a?(String) \
-					? @handler_element.handler.get_element_handler(:"#text").call(child_handler_element) \
-					: child_handler_element.handler.get_element_handler(child_handler_element.tagname).call(child_handler_element.element)
-			}.join
+		def source
+			@handler_element.source
 		end
 
-		def child_nodes
-			NodeList.new @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
+		def content
+			NodeList.new @handler_element, @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
 		end
 
 		def as_bbcode
-			NodeList.new [self]
+			content.source
 		end
 
 		def to_s
-			@handler_element.source
+			@handler_element.handler.get_element_handler(tagname).call(self)
 		end
 	end
 end

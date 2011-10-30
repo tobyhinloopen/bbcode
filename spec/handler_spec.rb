@@ -5,11 +5,12 @@ def get_handled_parser_result( string )
 		:b => ->(element){ "<strong>#{element.content}</strong>" },
 		:i => ->(element){ "<em>#{element.content}</em>" },
 		:url => ->(element){ %(<a href="#{CGI.escapeHTML(element[0])}">#{element.content}</a>) },
+		:txt => ->(element){ "#{element.content.source}" },
 		:"#text" => ->(text){ CGI.escapeHTML(text) }
 	})
 	parser = Bbcode::Parser.new Bbcode::Tokenizer.new
 	parser.parse string, &handler.get_parser_handler
-	handler.get_document.content
+	"#{handler.get_document.content}"
 end
 
 describe Bbcode::Handler do
@@ -38,5 +39,10 @@ describe Bbcode::Handler do
 	it "should handle basic tag interrupts" do
 		get_handled_parser_result("[b]bold[i]and italic[/b]only italic[/i]").should \
 			eql("<strong>bold<em>and italic</em></strong><em>only italic</em>")
+	end
+
+	it "should be able to render the source of an element's contents" do
+		get_handled_parser_result("[txt][b]ignored element[/b][/txt]").should \
+			eql("[b]ignored element[/b]")
 	end
 end
