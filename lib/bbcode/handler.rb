@@ -61,7 +61,7 @@ module Bbcode
 		end
 
 		def get_element_handler( name )
-			@element_handlers[name] || ->(element){ element.is_a?(String) ? element : element.content }
+			@element_handlers[name] || ->(element){ element.is_a?(String) ? element : element.source_wraps_content }
 		end
 
 		protected

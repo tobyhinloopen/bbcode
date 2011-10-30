@@ -4,7 +4,7 @@ module Bbcode
 	# Private data source for an Element updated by the Handler
 	class HandlerElement
 		attr_accessor :childs
-		attr_reader :element, :tagname, :attributes, :handler
+		attr_reader :element, :tagname, :attributes, :handler, :start_source, :end_source
 
 		def initialize( handler, tagname, attributes, start_source )
 			@handler = handler
