@@ -5,8 +5,8 @@ strings to HTML or any other format you like.
 
 The bbcode gem consists of 4 parts:
 
-- The `Tokenizer`, which converts the bbcode-formatted string to a stream of
-  tokens.
+- The `Tokenizer`-class, which converts the bbcode-formatted string to a stream
+  of tokens.
 - The `Parser`-class, which attempts to pair bbcode tags to bbcode elements.
 - The `Handler`-class, which converts bbcode elements anyway you like.
 - The `Helpers`-module, which adds a method to String, allowing you to convert
