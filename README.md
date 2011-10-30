@@ -4,10 +4,10 @@ A bbcode parser gem you can include in your rails app to parse bbcode-formatted
 strings to HTML or any other format you like.
 
 The bbcode gem consists of 4 parts:
-- A Tokenizer, which converts the bbcode-formatted string to a stream of tokens
-- A Parser, which attempts to pair bbcode tags to bbcode elements
-- A Handler, which converts bbcode elements anyway you like
-- A Helpers-module, which adds a method to String, allowing you to convert
+* A Tokenizer, which converts the bbcode-formatted string to a stream of tokens
+* A Parser, which attempts to pair bbcode tags to bbcode elements
+* A Handler, which converts bbcode elements anyway you like
+* A Helpers-module, which adds a method to String, allowing you to convert
   bbcode-formatted strings with a registered handler.
 
 Additionally, a HtmlHandler class is available. This class is a Handler
