@@ -47,8 +47,11 @@ the `:html`-handler like this:
 If you're using this gem in a rails project, I would recommend registering your
 handlers in an initializer.
 
+See examples in `spec/` folder for detailed examples of usage.
+
 Features:
 ---------
+See examples in `spec/` folder for list of working features.
 (todo: add list of features)
 
 Todo:
@@ -57,3 +60,7 @@ An easier way to handle text around bbcode tags to, for example, add smileys
 and wrap hyperlinks to URLs. Currently, the only way to achieve this is by
 adding a `:"#text"`-handler to your handler and adding the functionality
 yourself.
+
+Known issues:
+-------------
+None.
