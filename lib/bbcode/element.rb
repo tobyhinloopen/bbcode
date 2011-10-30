@@ -22,6 +22,10 @@ module Bbcode
 			@handler_element.source
 		end
 
+		def source_wraps_content( content = nil )
+			"#{@handler_element.start_source}#{content || self.content}#{@handler_element.end_source}"
+		end
+
 		def content
 			NodeList.new @handler_element.handler, @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
 		end
