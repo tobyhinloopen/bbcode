@@ -1,92 +1,48 @@
-A BBCode parser designed for use with Ruby on Rails
-===================================================
-This documentation is somewhat outdated. Check tests in spec-folder for usage
-examples. `handler_spec.rb` currently features the most high-level usage.
+A BBcode parser designed to be used with Ruby on Rails
+=======================================================
+A bbcode parser gem you can include in your rails app to parse bbcode-formatted
+strings to HTML or any other format you like.
 
-Currently supported by parser:
-------------------------------
-* Regular bbcode tags like `[i]italic[/i]`
-* Incorrect nesting of tags like `[b]bold[i]and italic[/b]but not bold[/i]`
-* Anonymous closing tags like `[b]bold[/]`
-* Unnamed, comma-separated arguments like `[video=640, 480]...[/]`
-* Named arguments as key=value or key:value pairs like
-  `[table cellpadding=0 border:100]...[/]`
-* Quoted arguments with escaped characters like
-  `[abbr title='It\'s an example with a ] in it being ignored!']...[/]`
+The bbcode gem consists of 4 parts:
+- A Tokenizer, which converts the bbcode-formatted string to a stream of tokens
+- A Parser, which attempts to pair bbcode tags to bbcode elements
+- A Handler, which converts bbcode elements anyway you like
+- A Helpers-module, which adds a method to String, allowing you to convert
+  bbcode-formatted strings with a registered handler.
 
-For a well-defined, up-to-date list of supported tags & syntaxes, check the
-test's sources in the spec-folder.
+Additionally, a HtmlHandler class is available. This class is a Handler
+designed to convert bbcode elements to HTML more easily.
 
-Current known issues:
----------------------
+Installation
+------------
+Add the gem to the gemfile of your project.
+(todo: add examples)
 
+Usage
+-----
+Create and register a handler. In this example, I'm creating a HtmlHandler and
+I'm going to register it as `:html`.
 
-How it will work:
------------------
 ```ruby
-msg = "[b]bold[/b] [color=red]red[/] [url=http://www.google.com/]google![/url]"
-
-Bbcode::Base.register_handler :text, Bbcode::Handler.new({
-	:url => ->(args, content) { "#{content} (#{args[0]})" }
-})
-msg.as_bbcode.to(:text)
-# => bold red google! (http://www.google.com/)
-
-Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new({
+Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new(
 	:b => :strong,
 	:i => :em,
-	:u => [ :span, { :class => "underline" } ]
-	:url => ->(args, content) {
-		%(<a href="#{CGI.escapeHTML(args[0])}" target="#{CGI.escapeHTML(args[1] || "_blank")}">#{content}</a>)
-	},
-	:color => ->(args, content) {
-		%(<span style="color: #{CGI.escapeHTML(args[0])};">#{content}</span>)
-	},
-	:code => ->(args, content) {
-		%(<pre>#{content.as_bbcode}</pre>)
-	}
-})
-msg.as_bbcode.to(:html)
-# => <strong>bold</strong> <span style="color: red;">red</spa> <a href="http://www.google.com/" target="_blank">google!</a>
+	:url => [ :a, { :href => "%{0}" } ],
+	:txt => ->(element){ "#{element.content.source}" },
+	:img => ->(element){ %(<img src="#{element.content.source}">) },
+	:quote => ->(element){ %(<blockquote>#{element.content.with_handler(quote_handler)}</blockquote>) },
+	:color => [ :span, { :style => "color: %{0};" } ]
+)
 ```
 
-`as_bbcode` will convert an object to a bbcode node-set which can be rendered
-as plain-text or can be handled by a bbcode handler.
-
-`content` is a bbcode node-set in a wrapper, enabling you to either render the
-node-set to a string by using the current handler by using `to_s`, or extract
-the node-set to print the plain bbcode content or use another handler to render
-the node-set.
-
-Nested handlers:
-----------------
-You can customize the behavior of the handler within different bbcode tags. For
-example, you could use a different html handler to convert a quote's content.
-If a quoted message contains images, video's or other quotes, you might want to
-strip the nested quotes and skip the rendering of the image/video and render a
-link to the image/video instead.
+That's it! You can now parse any string as bbcode and convert it to html with
+the `:html`-handler like this:
 
 ```ruby
-msg = "[quote]\
-[img]funpic.jpg[/]\
-[/]\
-[img]zomg.jpg[/] epic image!"
-
-Bbcode::Base.register_handler :quote_html, Bbcode::HtmlHandler.new({
-	:img => ->(args, content) {
-		%(<a href="#{content.as_bbcode}" target="_blank">image</a>)
-	},
-	:quote => ->(args, content) { "[...]" }
-})
-
-Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new({
-	:img => ->(args, content) { %(<img src="#{content.as_bbcode}">) }
-	:quote => ->(args, content) { %(<blockquote>#{content.as_bbcode.to(:quote_html)}</blockquote>) }
-})
-
-msg.as_bbcode.to(:html)
-# => <blockquote>
-# => <a href="funpic.jpg" target="_blank">image</a>
-# => </blockquote>
-# => <img src="zomg.jpg"> epic image!
+"[b]Hello, bold world![/]".as_bbcode.to :html
+# => <strong>Hello, bold world!</strong>
 ```
+
+Features
+--------
+(todo: add list of features)
