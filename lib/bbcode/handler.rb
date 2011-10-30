@@ -6,6 +6,7 @@ module Bbcode
 			@element_handlers = {}.with_indifferent_access
 			@handler_element_stack = [ HandlerElement.new( self, :"#document", {}, "" ) ]
 			register_element_handlers element_handlers unless element_handlers.blank?
+			@interruption_stack = []
 		end
 
 		def register_element_handlers( element_handlers )
@@ -25,13 +26,13 @@ module Bbcode
 		end
 
 		def interrupt_element( tagname )
-			puts "interrupt is not yet supported. ending element"
+			@interruption_stack << current_handler_element
 			end_element tagname, ""
 		end
 
 		def continue_element( tagname )
-			puts "continue is not yet supported. starting element"
-			start_element tagname, {}, ""
+			handler_element = @interruption_stack.pop
+			start_element handler_element.tagname, handler_element.attributes, ""
 		end
 
 		def end_element( tagname, source )
