@@ -32,7 +32,6 @@ Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new(
 	:url => [ :a, { :href => "%{0}" } ],
 	:txt => ->(element){ "#{element.content.source}" },
 	:img => ->(element){ %(<img src="#{element.content.source}">) },
-	:quote => ->(element){ %(<blockquote>#{element.content.with_handler(quote_handler)}</blockquote>) },
 	:color => [ :span, { :style => "color: %{0};" } ]
 )
 ```
