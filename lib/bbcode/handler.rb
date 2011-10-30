@@ -6,7 +6,6 @@ module Bbcode
 			@element_handlers = {}.with_indifferent_access
 			@handler_element_stack = [ HandlerElement.new( self, :"#document", {}, "" ) ]
 			register_element_handlers element_handlers unless element_handlers.blank?
-			@content_listener = ->(content){}
 		end
 
 		def register_element_handlers( element_handlers )
