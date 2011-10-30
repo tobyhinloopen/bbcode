@@ -26,10 +26,6 @@ module Bbcode
 			NodeList.new @handler_element.handler, @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
 		end
 
-		def as_bbcode
-			content.source
-		end
-
 		def to_s
 			@handler_element.handler.get_element_handler(tagname).call(self)
 		end
