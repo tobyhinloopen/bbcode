@@ -28,11 +28,13 @@ module Bbcode
 		end
 
 		def interrupt_element( tagname )
+			# TODO: Add better way to handle interrupts
 			@interruption_stack << current_handler_element
 			end_element tagname, ""
 		end
 
 		def continue_element( tagname )
+			# TODO: Add better way to handle interrupts
 			handler_element = @interruption_stack.pop
 			start_element handler_element.tagname, handler_element.attributes, ""
 		end
