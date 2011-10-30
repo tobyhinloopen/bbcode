@@ -1,8 +1,7 @@
 A BBCode parser designed for use with Ruby on Rails
 ===================================================
-The parser is currently in active development and already is able to parse a
-wide range of BBCode tags, but doesn't have any implementations to process them
-into HTML yet.
+This documentation is somewhat outdated. Check tests in spec-folder for usage
+examples. `handler_spec.rb` currently features the most high-level usage.
 
 Currently supported by parser:
 ------------------------------
@@ -20,7 +19,7 @@ test's sources in the spec-folder.
 
 Current known issues:
 ---------------------
-None! (but a lot of stuff needs to be done)
+
 
 How it will work:
 -----------------
