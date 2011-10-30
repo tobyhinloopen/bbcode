@@ -23,7 +23,7 @@ module Bbcode
 		end
 
 		def content
-			NodeList.new @handler_element, @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
+			NodeList.new @handler_element.handler, @handler_element.childs.map{ |child_handler_element| child_handler_element.is_a?(String) ? child_handler_element : child_handler_element.element }
 		end
 
 		def as_bbcode

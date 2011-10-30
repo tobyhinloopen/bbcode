@@ -1,9 +1,9 @@
 module Bbcode
 	# An array with Elements and strings
 	class NodeList < Array
-		def initialize(parent, nodes = [])
+		def initialize( handler, nodes = [] )
 			super nodes
-			@parent = parent
+			@handler = handler
 		end
 
 		def source
@@ -12,10 +12,12 @@ module Bbcode
 
 		def to_s
 			self.map{ |element|
-				element.is_a?(String) \
-					? @parent.handler.get_element_handler(:"#text").call(element) \
-					: element.to_s
+				@handler.get_element_handler(element.is_a?(String) ? :"#text" : element.tagname).call(element)
 			}.join
+		end
+
+		def with_handler( handler )
+			NodeList.new handler, self
 		end
 	end
 end

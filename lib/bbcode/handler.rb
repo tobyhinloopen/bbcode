@@ -2,6 +2,8 @@ require "bbcode/handler_element"
 
 module Bbcode
 	class Handler
+		attr_accessor :element_handlers
+
 		def initialize( element_handlers = nil )
 			@element_handlers = {}.with_indifferent_access
 			@handler_element_stack = [ HandlerElement.new( self, :"#document", {}, "" ) ]
