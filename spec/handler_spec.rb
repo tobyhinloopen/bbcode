@@ -62,7 +62,7 @@ describe Bbcode::Handler do
 			eql("[b]ignored element[/b]")
 	end
 
-	it "should be able to swap handlers" do
+	it "should be able to switch handlers" do
 		get_handled_parser_result("[quote][img]epic.jpg[/img][/quote][img]epic.jpg[/img]").should \
 			eql(%(<blockquote><a href="epic.jpg">image</a></blockquote><img src="epic.jpg">))
 	end
