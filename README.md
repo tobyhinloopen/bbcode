@@ -45,6 +45,9 @@ the `:html`-handler like this:
 # => <strong>Hello, bold world!</strong>
 ```
 
+If you're using this gem in a rails project, I would recommend registering your
+handlers in an initializer.
+
 Features:
 ---------
 (todo: add list of features)
