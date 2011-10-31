@@ -31,7 +31,7 @@ Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new(
 	:i => :em,
 	:url => [ :a, { :href => "%{0}" } ],
 	:txt => ->(element){ "#{element.content.source}" },
-	:img => ->(element){ %(<img src="#{element.content.source}">) },
+	:img => ->(element){ %(<img src="#{CGI.escapeHTML(element.content.source)}">) },
 	:color => [ :span, { :style => "color: %{0};" } ]
 )
 ```
