@@ -75,3 +75,4 @@ Todo:
   the current registered tags.
 * Add CDATA-like feature for bbcode tags to allow tags to be ignored within
   certain elements. Useful for `[code]`-tags.
+* Add a default handler with the most common bbcode tags.
