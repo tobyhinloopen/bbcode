@@ -20,7 +20,7 @@ def get_handled_parser_result( string )
 	})
 
 	parser = Bbcode::Parser.new Bbcode::Tokenizer.new
-	parser.parse string, &handler.get_parser_handler
+	parser.parse string, handler
 	"#{handler.get_document.content}"
 end
 

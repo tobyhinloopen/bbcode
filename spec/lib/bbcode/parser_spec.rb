@@ -1,12 +1,22 @@
 require 'spec_helper.rb'
 
+class BlockHandler
+	def initialize( block )
+		@block = block
+	end
+
+	def method_missing(*args)
+		@block.call *args
+	end
+end
+
 def get_parser_results(string, strip_source = true)
 	parser = Bbcode::Parser.new Bbcode::Tokenizer.new
 	results = []
-	parser.parse string do |*args|
+	parser.parse string, BlockHandler.new(->(*args) {
 		args.pop if strip_source && [:end_element, :start_element].include?(args.first) # pop the source
 		results.push args
-	end
+	})
 	results
 end
 

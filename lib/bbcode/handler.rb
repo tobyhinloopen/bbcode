@@ -59,13 +59,6 @@ module Bbcode
 			@handler_element_stack << HandlerElement.new( self, :"#document", {}, "" )
 		end
 
-		# DEPRECATED: Parse should be able to use Bbcode::Handler instances
-		def get_parser_handler
-			->(*args) {
-				current_handler_element.handler.send *args if [:start_element, :interrupt_element, :continue_element, :end_element, :text].include?(args.first)
-			}
-		end
-
 		def get_element_handler( name )
 			@element_handlers[name] || ->(element){ element.is_a?(String) ? element : element.source_wraps_content }
 		end

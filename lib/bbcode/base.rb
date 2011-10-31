@@ -9,7 +9,7 @@ module Bbcode
 		def to( handler )
 			handler = @@handlers[handler]
 			raise "Handler #{handler} isn't registered" if handler.blank?
-			Parser.new(Tokenizer.new).parse @string, &handler.get_parser_handler
+			Parser.new(Tokenizer.new).parse @string, handler
 			result = handler.get_document.content.to_s
 			handler.clear
 			result

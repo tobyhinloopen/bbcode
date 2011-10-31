@@ -14,12 +14,12 @@ module Bbcode
 		end
 
 		def text( text )
-			@handler.call :text, text
+			@handler.send :text, text
 		end
 
 		def start_element( tagname, attributes, source )
 			@tags_stack << tagname
-			@handler.call :start_element, tagname, attributes, source
+			@handler.send :start_element, tagname, attributes, source
 		end
 
 		def end_element( tagname, source )
@@ -29,18 +29,18 @@ module Bbcode
 			@interruption_stack = []
 			while @tags_stack.last != tagname do
 				@interruption_stack << @tags_stack.last
-				@handler.call :interrupt_element, @tags_stack.pop
+				@handler.send :interrupt_element, @tags_stack.pop
 			end
 
-			@handler.call :end_element, @tags_stack.pop, source
+			@handler.send :end_element, @tags_stack.pop, source
 
 			while !@interruption_stack.empty? do
 				@tags_stack << @interruption_stack.last
-				@handler.call :continue_element, @interruption_stack.pop
+				@handler.send :continue_element, @interruption_stack.pop
 			end
 		end
 
-		def parse( document, &handler )
+		def parse( document, handler )
 			@handler = handler
 			@tokenizer.tokenize document do |*args|
 				self.send *args if [:start_element, :end_element, :text].include?(args.first)
