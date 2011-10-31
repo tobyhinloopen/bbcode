@@ -7,8 +7,8 @@ def get_handled_parser_result( string )
 		:b => ->(element){ "<strong>#{element.content}</strong>" },
 		:i => ->(element){ "<em>#{element.content}</em>" },
 		:url => ->(element){ %(<a href="#{CGI.escapeHTML(element[0])}">#{element.content}</a>) },
-		:txt => ->(element){ "#{element.content.source}" },
-		:img => ->(element){ %(<img src="#{element.content.source}">) },
+		:txt => ->(element){ "#{CGI.escapeHTML(element.content.source)}" },
+		:img => ->(element){ %(<img src="#{CGI.escapeHTML(element.content.source)}">) },
 		:quote => ->(element){ %(<blockquote>#{element.content.with_handler(quote_handler)}</blockquote>) },
 		:color => ->(element){ %(<span style="color: #{CGI.escapeHTML(element[0])};">#{element.content}</span>) },
 		:"#text" => ->(text){ CGI.escapeHTML(text) }

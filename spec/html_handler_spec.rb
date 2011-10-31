@@ -7,14 +7,14 @@ def get_handled_html_parser_result( string )
 		:b => :strong,
 		:i => :em,
 		:url => [ :a, { :href => "%{0}" } ],
-		:txt => ->(element){ "#{element.content.source}" },
-		:img => ->(element){ %(<img src="#{element.content.source}">) },
+		:txt => ->(element){ "#{CGI.escapeHTML(element.content.source)}" },
+		:img => ->(element){ %(<img src="#{CGI.escapeHTML(element.content.source)}">) },
 		:quote => ->(element){ %(<blockquote>#{element.content.with_handler(quote_handler)}</blockquote>) },
 		:color => [ :span, { :style => "color: %{0};" } ]
 	})
 
 	quote_handler.register_element_handlers handler.element_handlers.merge({
-		:img => ->(element){ %(<a href="#{element.content.source}">image</a>) },
+		:img => ->(element){ %(<a href="#{CGI.escapeHTML(element.content.source)}">image</a>) },
 		:quote => ->(element){ "[...]" }
 	})
 
