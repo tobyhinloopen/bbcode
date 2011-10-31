@@ -33,4 +33,8 @@ describe Bbcode::Helpers do
 	it "should enable a string to be parsed as bbcode" do
 		"[b]bold[/]".as_bbcode.to(:html).should eql("<strong>bold</strong>")
 	end
+
+	it "should be able to process non-ascii characters" do
+		# load UTF-8 content from a file and parse it
+	end
 end
