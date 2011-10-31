@@ -51,16 +51,27 @@ See examples in `spec/` folder for detailed examples of usage.
 
 Features:
 ---------
-See examples in `spec/` folder for list of working features.
-(todo: add list of features)
+* Parsing regular bbcode tags like `[b]` and `[/b]`.
+* Parsing anonymous closing bbcode tags like `[/]`.
+* Parsing bbcode tags with arguments like `[a=foo, bar]`, `[a foo=1 bar:2]`,
+  `[a=foo, bar bar:1 foo=2]` and `[a="foo" b='bar']`.
+* Parsing nested bbcode elements like `[b]bold[i]and italic[/]only bold[/]`,
+  which might result to `<b>bold<i>and italic</i>only bold</b>`.
+* Parsing incorrectly nested bbcode elements like `[b]bold[i]and italic[/b]only
+  italic[/]`, which might result to `<b>bold<i>and italic</i></b><i>only
+  italic</i>`.
 
 Todo:
 -----
-An easier way to handle text around bbcode tags to, for example, add smileys
-and wrap hyperlinks to URLs. Currently, the only way to achieve this is by
-adding a `:"#text"`-handler to your handler and adding the functionality
-yourself.
-
-Known issues:
--------------
-None.
+* An easier way to handle text around bbcode tags to, for example, add smileys
+  and wrap hyperlinks to URLs. Currently, the only way to achieve this is by
+  adding a `:"#text"`-handler to your handler and adding the functionality
+  yourself.
+* An easier way to include the content, source or content-source in the
+  `HtmlHandler`-class.
+* Review handleability of element interrupts.
+* Review regular expression matching bbcode tags to allow tags having names
+  containing characters other than `A-Z`, `0-9`, `_` and `-`, possibly based on
+  the current registered tags.
+* Add CDATA-like feature for bbcode tags to allow tags to be ignored within
+  certain elements. Useful for `[code]`-tags.
