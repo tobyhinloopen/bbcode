@@ -26,6 +26,10 @@ describe Bbcode::Helpers do
 		"test".as_bbcode.to(:text).should eql("test")
 	end
 
+	it "should be able to parse for a second time without being affected by the first" do
+		"test 2".as_bbcode.to(:text).should eql("test 2")
+	end
+
 	it "should enable a string to be parsed as bbcode" do
 		"[b]bold[/]".as_bbcode.to(:html).should eql("<strong>bold</strong>")
 	end
