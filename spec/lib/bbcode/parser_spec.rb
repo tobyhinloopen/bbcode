@@ -12,7 +12,7 @@ end
 
 describe Bbcode::Parser do
 	it "should parse text without bbcode" do
-		get_tokenizer_results("Hello, world!")[0].should eql([:text, "Hello, world!"])
+		get_parser_results("Hello, world!")[0].should eql([:text, "Hello, world!"])
 	end
 
 	it "should parse a simple bbcode element" do
@@ -30,9 +30,9 @@ describe Bbcode::Parser do
 	end
 
 	it "should provide the actual sourcecode of the elements" do
-		get_tokenizer_results("[b a = 1, b:2, c='1'][/][url=http://www.google.com/][/url]", false).should \
+		get_parser_results("[b a = 1, b:2, c='1'][/][url=http://www.google.com/][/url]", false).should \
 			eql([ [ :start_element, :b, { :a => "1", :b => "2", :c => "1" }.with_indifferent_access, "[b a = 1, b:2, c='1']"],
-			      [ :end_element, nil, "[/]" ],
+			      [ :end_element, :b, "[/]" ],
 			      [ :start_element, :url, { 0 => "http://www.google.com/" }, "[url=http://www.google.com/]" ],
 			      [ :end_element, :url, "[/url]" ] ])
 	end
