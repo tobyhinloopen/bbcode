@@ -68,13 +68,18 @@ describe Bbcode::Tokenizer do
 			eql([:start_element, :abbr, { :a => "It's a test", :b => '...a "test"!' }.with_indifferent_access])
 	end
 
+	it "should parse mixed unnamed and named arguments" do
+		get_tokenizer_results(%([a=foo, bar foo=1 bar:2]))[0].should \
+			eql([:start_element, :a, { 0 => "foo", 1 => "bar", :foo => "1", :bar => "2" }.with_indifferent_access])
+	end
+
 	it "should ignore the quotes of an attribute value if the quote-pair is incomplete or incorrect" do
 		get_tokenizer_results(%([a "test]))[0].should eql([:start_element, :a, { 0 => "\"test" }])
 	end
 
-	it "should parse key=value attribute pairs" do
-		get_tokenizer_results(%([table=list width = 600 height=300 background-color= \"black\" background-image =url('image.jpg')]))[0].should \
-			eql([:start_element, :table, { 0 => "list", :width => "600", :height => "300", :"background-color" => "black", :"background-image" => "url('image.jpg')" }.with_indifferent_access])
+	it "should parse various key=value attribute pairs" do
+		get_tokenizer_results(%([table width = 600 height=300 background-color= \"black\" background-image =url('image.jpg')]))[0].should \
+			eql([:start_element, :table, { :width => "600", :height => "300", :"background-color" => "black", :"background-image" => "url('image.jpg')" }.with_indifferent_access])
 	end
 
 	it "should parse key:value attribute pairs separated with optional comma" do
