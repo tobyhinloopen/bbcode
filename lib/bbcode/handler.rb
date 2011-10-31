@@ -6,7 +6,8 @@ module Bbcode
 
 		def initialize( element_handlers = nil )
 			@element_handlers = {}.with_indifferent_access
-			@handler_element_stack = [ HandlerElement.new( self, :"#document", {}, "" ) ]
+			@handler_element_stack = []
+			self.clear
 			register_element_handlers element_handlers unless element_handlers.blank?
 			@interruption_stack = []
 		end
@@ -51,6 +52,11 @@ module Bbcode
 
 		def get_document
 			@handler_element_stack.first.element
+		end
+
+		def clear
+			@handler_element_stack.clear
+			@handler_element_stack << HandlerElement.new( self, :"#document", {}, "" )
 		end
 
 		# DEPRECATED: Parse should be able to use Bbcode::Handler instances
