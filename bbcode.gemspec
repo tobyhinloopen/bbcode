@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 	s.email       = ["toby@kutcomputers.nl"]
 	s.homepage    = ""
 	s.summary     = %q{BBCode parser}
-	s.description = %q{BBCode parser}
+	s.description = %q{Gem for parsing bbcode-formatted strings to HTML or any other formatting you like (or don't like).}
 
 	s.rubyforge_project = "bbcode"
 
