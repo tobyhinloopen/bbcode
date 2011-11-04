@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "bbcode/version"
 
 Gem::Specification.new do |s|
-	s.name        = "bbcode"
+	s.name        = "th-bbcode"
 	s.version     = Bbcode::VERSION
 	s.authors     = ["Toby Hinloopen"]
 	s.email       = ["toby@kutcomputers.nl"]
