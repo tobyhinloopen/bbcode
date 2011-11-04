@@ -17,8 +17,8 @@ designed to convert bbcode elements to HTML more easily.
 
 Installation:
 -------------
-Add the gem to the gemfile of your project.
-(todo: add examples)
+Add the gem to the gemfile of your project:
+`gem "th-bbcode", "~> 0.4.0"`
 
 Usage:
 ------
