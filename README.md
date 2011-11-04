@@ -26,6 +26,8 @@ Create and register a handler. In this example, I'm creating a HtmlHandler and
 I'm going to register it as `:html`.
 
 ```ruby
+require "bbcode"
+
 Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new(
 	:b => :strong,
 	:i => :em,
