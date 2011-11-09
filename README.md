@@ -71,7 +71,6 @@ defining a `:"#text"`-handler in your Handler or HtmlHandler.
 
 I personally used WillScanString's StringScanner class to achieve this:
 ```ruby
-# Requires the will_scan_string gem
 require "will_scan_string"
 
 string_scanner = WillScanString::StringScanner.new
