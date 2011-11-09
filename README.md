@@ -70,7 +70,9 @@ or you might want smileys in your bbcode message. This can be done by
 defining a `:"#text"`-handler in your Handler or HtmlHandler.
 
 I personally used WillScanString's StringScanner class to achieve this:
+
 ```ruby
+# Requires the will_scan_string gem
 require "will_scan_string"
 
 string_scanner = WillScanString::StringScanner.new
@@ -84,6 +86,7 @@ string_scanner.register_replacement /[^\s@]+@[^\s@]/, ->(email){ %(<a href="mail
 # +handler+ is your Bbcode::HtmlHandler or Bbcode::Handler instance
 handler.register_element_handler :"#text", ->(text){ string_scanner.replace(text) }
 ```
+
 The above example converts newlines to `<br>`-tags, escapes HTML entities
 and converts e-mail addresses to clickable mailto hyperlinks.
 
