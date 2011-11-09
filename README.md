@@ -63,12 +63,42 @@ Features:
   italic[/]`, which might result to `<b>bold<i>and italic</i></b><i>only
   italic</i>`.
 
+Using WillScanString:
+---------------------
+You might want to convert URLs in the message to be converted to a hyperlink,
+or you might want smileys in your bbcode message. This can be done by
+defining a `:"#text"`-handler in your Handler or HtmlHandler.
+
+I personally used WillScanString's StringScanner class to achieve this:
+```ruby
+# Requires the will_scan_string gem
+require "will_scan_string"
+
+string_scanner = WillScanString::StringScanner.new
+string_scanner.register_replacement "<", "&lt;"
+string_scanner.register_replacement ">", "&gt;"
+string_scanner.register_replacement "&", "&amp;"
+string_scanner.register_replacement "\"", "&quot;"
+string_scanner.register_replacement /(?:\r\n|\r|\n)/, "<br>"
+string_scanner.register_replacement /[^\s@]+@[^\s@]/, ->(email){ %(<a href="mailto:#{CGI.escapeHTML(email)}>#{CGI.escapeHTML(email)}</a>">) }
+
+# +handler+ is your Bbcode::HtmlHandler or Bbcode::Handler instance
+handler.register_element_handler :"#text", ->(text){ string_scanner.replace(text) }
+```
+The above example converts newlines to `<br>`-tags, escapes HTML entities
+and converts e-mail addresses to clickable mailto hyperlinks.
+
+Note: By overwriting the `:"#text"`-handler in the HtmlHandler, html entities
+are no longer replaced automatically: You need to escape them in your handler
+callback yourself. Failing to do so might expose your website to XSS
+vulnerabilities.
+
 Todo:
 -----
 * An easier way to handle text around bbcode tags to, for example, add smileys
   and wrap hyperlinks to URLs. Currently, the only way to achieve this is by
   adding a `:"#text"`-handler to your handler and adding the functionality
-  yourself.
+  yourself. (note: See the above note regarding WillScanString)
 * An easier way to include the content, source or content-source in the
   `HtmlHandler`-class.
 * Review handleability of element interrupts.
