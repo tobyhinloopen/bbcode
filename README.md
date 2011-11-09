@@ -81,7 +81,7 @@ string_scanner.register_replacement ">", "&gt;"
 string_scanner.register_replacement "&", "&amp;"
 string_scanner.register_replacement "\"", "&quot;"
 string_scanner.register_replacement /(?:\r\n|\r|\n)/, "<br>"
-string_scanner.register_replacement /[^\s@]+@[^\s@]/, ->(email){ %(<a href="mailto:#{CGI.escapeHTML(email)}>#{CGI.escapeHTML(email)}</a>">) }
+string_scanner.register_replacement /[^\s@]+@[^\s@]/, ->(email){ %(<a href="mailto:#{CGI.escapeHTML(email)}">#{CGI.escapeHTML(email)}</a>>) }
 
 # +handler+ is your Bbcode::HtmlHandler or Bbcode::Handler instance
 handler.register_element_handler :"#text", ->(text){ string_scanner.replace(text) }
