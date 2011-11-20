@@ -1,3 +1,5 @@
+include  ActionView::Helpers::TagHelper
+
 require "bbcode/version"
 require "bbcode/tokenizer"
 require "bbcode/parser"
