@@ -26,15 +26,18 @@ Create and register a handler. In this example, I'm creating a HtmlHandler and
 I'm going to register it as `:html`.
 
 ```ruby
-require "bbcode"
+require 'rubygems'
+require 'bundler/setup'
+require 'bbcode'
 
 Bbcode::Base.register_handler :html, Bbcode::HtmlHandler.new(
-	:b => :strong,
-	:i => :em,
-	:url => [ :a, { :href => "%{0}" } ],
-	:txt => ->(element){ "#{element.content.source}" },
-	:img => ->(element){ %(<img src="#{CGI.escapeHTML(element.content.source)}">) },
-	:color => [ :span, { :style => "color: %{0};" } ]
+  :b => :strong,
+  :i => :em,
+  :url => [ :a, { :href => "%{0}" } ],
+  :txt => ->(element){ "#{element.content.source}" },
+  :img => ->(element){ %(<img src="#{CGI.escapeHTML(element.content.source)}">) },
+  :admin => ->(element, locals){ locals[:is_admin] ? element.content : "" },
+  :color => [ :span, { :style => "color: %{0};" } ]
 )
 ```
 
@@ -44,6 +47,10 @@ the `:html`-handler like this:
 ```ruby
 "[b]Hello, bold world![/]".as_bbcode.to :html
 # => <strong>Hello, bold world!</strong>
+"[admin]Hello, admin![/]".as_bbcode.to :html, :is_admin => true
+# => Hello, admin!
+"[admin]Hello, admin![/]".as_bbcode.to :html, :is_admin => false
+# => 
 ```
 
 If you're using this gem in a rails project, I would recommend registering your
@@ -62,6 +69,8 @@ Features:
 * Parsing incorrectly nested bbcode elements like `[b]bold[i]and italic[/b]only
   italic[/]`, which might result to `<b>bold<i>and italic</i></b><i>only
   italic</i>`.
+* Passing variables to the handler and accessing them to the element handler
+  callbacks.
 
 Using WillScanString:
 ---------------------
