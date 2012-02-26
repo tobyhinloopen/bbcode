@@ -11,9 +11,7 @@ module Bbcode
 		end
 
 		def to_s
-			self.map{ |element|
-				@handler.get_element_handler(element.is_a?(String) ? :"#text" : element.tagname).call(element)
-			}.join
+			self.map{ |element| @handler.apply_element_handler_for_element element }.join
 		end
 
 		def with_handler( handler )

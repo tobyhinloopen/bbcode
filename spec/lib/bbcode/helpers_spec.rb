@@ -10,6 +10,7 @@ handler = Bbcode::Handler.new({
 	:img => ->(element){ %(<img src="#{element.content.source}">) },
 	:quote => ->(element){ %(<blockquote>#{element.content.with_handler(quote_handler)}</blockquote>) },
 	:color => ->(element){ %(<span style="color: #{CGI.escapeHTML(element[0])};">#{element.content}</span>) },
+	:admin => ->(element, locals){ locals[:is_admin] ? element.content : "" },
 	:"#text" => ->(text){ CGI.escapeHTML(text) }
 })
 
@@ -36,5 +37,10 @@ describe Bbcode::Helpers do
 
 	it "should be able to process non-ascii characters" do
 		# load UTF-8 content from a file and parse it
+	end
+
+	it "should be able to pass locals" do
+		"[admin]Only admins can see this![/]".as_bbcode.to(:html, :is_admin => true).should eql("Only admins can see this!")
+		"[admin]Only admins can see this![/]".as_bbcode.to(:html, :is_admin => false).should eql("")
 	end
 end

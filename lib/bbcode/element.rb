@@ -31,7 +31,7 @@ module Bbcode
 		end
 
 		def to_s
-			@handler_element.handler.get_element_handler(tagname).call(self)
+			@handler_element.handler.apply_element_handler_for_element self
 		end
 	end
 end

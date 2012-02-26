@@ -2,7 +2,7 @@ require "bbcode/handler_element"
 
 module Bbcode
 	class Handler
-		attr_accessor :element_handlers
+		attr_accessor :element_handlers, :locals
 
 		def initialize( element_handlers = nil )
 			@element_handlers = {}.with_indifferent_access
@@ -10,6 +10,7 @@ module Bbcode
 			self.clear
 			register_element_handlers element_handlers unless element_handlers.blank?
 			@interruption_stack = []
+			self.locals = {}
 		end
 
 		def register_element_handlers( element_handlers )
@@ -61,6 +62,15 @@ module Bbcode
 
 		def get_element_handler( name )
 			@element_handlers[name] || ->(element){ element.is_a?(String) ? element : element.source_wraps_content }
+		end
+
+		def locals=(locals)
+			@locals = locals.with_indifferent_access
+		end
+
+		def apply_element_handler_for_element(element)
+			callable = get_element_handler(element.is_a?(String) ? :"#text" : element.tagname)
+			callable.arity == 2 ? callable.call(element, locals) : callable.call(element)
 		end
 
 		protected
