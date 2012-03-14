@@ -2,12 +2,9 @@ require 'spec_helper.rb'
 
 def get_tokenizer_results(string, strip_source = true)
 	tokenizer = Bbcode::Tokenizer.new
-	results = []
-	tokenizer.tokenize string do |*args|
-		args.pop if strip_source && [:end_element, :start_element].include?(args.first) # pop the source
-		results.push args
-	end
-	results
+	handler = DummyHandler.new strip_source
+	tokenizer.tokenize string, handler
+	handler.stack
 end
 
 describe Bbcode::Tokenizer do

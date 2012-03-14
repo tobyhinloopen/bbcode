@@ -1,6 +1,6 @@
 module Bbcode
 	# Attempts to pair a stream of tokens created by a tokenizer
-	class Parser
+	class Parser < AbstractHandler
 		attr_accessor :tokenizer
 
 		def initialize( tokenizer = nil )
@@ -14,12 +14,12 @@ module Bbcode
 		end
 
 		def text( text )
-			@handler.send :text, text
+			@handler.text text
 		end
 
 		def start_element( tagname, attributes, source )
 			@tags_stack << tagname
-			@handler.send :start_element, tagname, attributes, source
+			@handler.start_element tagname, attributes, source
 		end
 
 		def end_element( tagname, source )
@@ -29,22 +29,20 @@ module Bbcode
 			@interruption_stack = []
 			while @tags_stack.last != tagname do
 				@interruption_stack << @tags_stack.last
-				@handler.send :interrupt_element, @tags_stack.pop
+				@handler.interrupt_element @tags_stack.pop
 			end
 
-			@handler.send :end_element, @tags_stack.pop, source
+			@handler.end_element @tags_stack.pop, source
 
 			while !@interruption_stack.empty? do
 				@tags_stack << @interruption_stack.last
-				@handler.send :continue_element, @interruption_stack.pop
+				@handler.continue_element @interruption_stack.pop
 			end
 		end
 
 		def parse( document, handler )
 			@handler = handler
-			@tokenizer.tokenize document do |*args|
-				self.send *args if [:start_element, :end_element, :text].include?(args.first)
-			end
+			@tokenizer.tokenize document, self
 		end
 	end
 end

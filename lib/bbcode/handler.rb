@@ -1,7 +1,7 @@
 require "bbcode/handler_element"
 
 module Bbcode
-	class Handler
+	class Handler < AbstractHandler
 		attr_accessor :element_handlers, :locals
 
 		def initialize( element_handlers = nil )
@@ -27,16 +27,6 @@ module Bbcode
 			handler_element = HandlerElement.new self, tagname, attributes, source
 			current_handler_element.childs << handler_element
 			@handler_element_stack << handler_element
-		end
-
-		def restart_element( tagname, attributes, source )
-			end_element tagname, ""
-			start_element tagname, attributes, source
-		end
-
-		def void_element( tagname, attributes, source )
-			start_element tagname, attributes, source
-			end_element tagname, ""
 		end
 
 		def interrupt_element( tagname )

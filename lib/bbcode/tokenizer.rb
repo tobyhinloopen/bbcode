@@ -25,14 +25,14 @@ module Bbcode
 		# Parses the document as BBCode-formatted text and calls block with bbcode
 		# events.
 		#
-		# The block is called with the following events:
-		# - :text, text
+		# The handler will have the following methods called:
+		# - .text text
 		#   A text-event with an additional parameter containing the actual text.
-		# - :start_element, element_name, element_arguments
+		# - .start_element element_name, element_arguments
 		#   An element-event with 2 additional parameters: The element name as a
 		#   symbol and the element attributes as a hash. This events indicate the
 		#   start of the element.
-		# - :end_element, element_name
+		# - .end_element element_name
 		#   An element-event indicating the end of an element. Optionally, the
 		#   element_name is added as a parameter. If no parameter is present, it is
 		#   assumed to be the last started element.
@@ -44,12 +44,12 @@ module Bbcode
 		# Also note that :text events are not guaranteed to match the whole text.
 		# In some cases, the text might be separated to multiple :text events, even
 		# though there are no nodes in between.
-		def tokenize( document, &handler )
+		def tokenize(document, handler)
 			while !(match = BBCODE_TAG_PATTERN.match(document)).nil?
 				offset = match.begin(0)
 				elem_source = match[0]
 
-				handler.call :text, document[0...offset] unless offset == 0
+				handler.text document[0...offset] unless offset == 0
 
 				elem_is_closing_tag = match[1]=='/'
 				elem_name = (match[2].length > 0 && match[2].to_sym) || nil
@@ -57,18 +57,18 @@ module Bbcode
 
 				if (elem_is_closing_tag && !elem_attr_string) || (!elem_is_closing_tag && elem_name)
 					if !elem_is_closing_tag
-						handler.call :start_element, elem_name, parse_attributes_string(elem_attr_string), elem_source
+						handler.start_element elem_name, parse_attributes_string(elem_attr_string), elem_source
 					else
-						handler.call :end_element, elem_name, elem_source
+						handler.end_element elem_name, elem_source
 					end
 				else
-					handler.call :text, elem_source
+					handler.text elem_source
 				end
 
 				document = document[(offset+elem_source.length)..-1]
 			end
 
-			handler.call :text, document unless document.length == 0
+			handler.text document unless document.length == 0
 		end
 	end
 end
