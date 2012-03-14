@@ -29,6 +29,16 @@ module Bbcode
 			@handler_element_stack << handler_element
 		end
 
+		def restart_element( tagname, attributes, source )
+			end_element tagname, ""
+			start_element tagname, attributes, source
+		end
+
+		def void_element( tagname, attributes, source )
+			start_element tagname, attributes, source
+			end_element tagname, ""
+		end
+
 		def interrupt_element( tagname )
 			# TODO: Add better way to handle interrupts
 			@interruption_stack << current_handler_element
