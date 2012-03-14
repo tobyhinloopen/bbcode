@@ -12,7 +12,7 @@ module Bbcode
 				target_tagname, attributes = handler.is_a?(Array) ? handler : [handler, {}]
 				handler = ->(element){
 					content_tag(target_tagname, element.content, !attributes ? {} : Hash[attributes.map{ |k, v|
-						[k, v.gsub(/%{[^}]+}/) { |m| CGI.escapeHTML element[m[3] == ":" ? m[3...-1].to_sym : m[2...-1].to_i] }]
+						[k, v.gsub(/%{[^}]+}/) { |m| CGI.escapeHTML element[m[3] == ":" ? m[3...-1].to_sym : m[2...-1].to_i].to_s }]
 					}], false)
 				}
 			end
