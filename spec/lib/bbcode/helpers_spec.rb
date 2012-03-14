@@ -19,8 +19,8 @@ quote_handler.register_element_handlers handler.element_handlers.merge({
 	:quote => ->(element){ "[...]" }
 })
 
-Bbcode::Base.register_handler :html, handler
-Bbcode::Base.register_handler :text, Bbcode::Handler.new()
+Bbcode.register_handler :html, handler
+Bbcode.register_handler :text, Bbcode::Handler.new
 
 describe Bbcode::Helpers do
 	it "should enable a string to use a registered helper" do

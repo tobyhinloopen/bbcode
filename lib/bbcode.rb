@@ -14,4 +14,16 @@ include ActionView::Helpers::TagHelper
 
 module Bbcode
 	String.send :include, Bbcode::Helpers
+
+	def self.handlers
+		@@handlers ||= {}
+	end
+
+	def self.handler(name)
+		handlers[name]
+	end
+
+	def self.register_handler(name, handler)
+		handlers[name] = handler
+	end
 end

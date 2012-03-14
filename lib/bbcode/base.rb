@@ -4,22 +4,24 @@ module Bbcode
 
 		attr_reader :locals
 
-		def initialize(string, locals = {})
+		def initialize(parser, string)
+			@parser = parser
 			@string = string
 		end
 
-		def to(handler, locals = {})
-			handler = @@handlers[handler]
-			raise "Handler #{handler} isn't registered" if handler.blank?
+		def to(handler_name, locals = {})
+			handler = Bbcode.handler handler_name
+			raise "Handler #{handler} isn't registered." if handler.nil?
 			handler.locals = locals.with_indifferent_access
-			Parser.new(Tokenizer.new).parse @string, handler
+			@parser.parse @string, handler
 			result = handler.get_document.content.to_s
 			handler.clear
 			result
 		end
 
 		def self.register_handler(name, handler)
-			@@handlers[name] = handler
+			puts "WARNING: Bbcode::Base.register_handler is deprecated. Use Bbcode.register_handler instead."
+			Bbcode.register_handler(name, handler)
 		end
 	end
 end
