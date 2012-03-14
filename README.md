@@ -104,6 +104,17 @@ are no longer replaced automatically: You need to escape them in your handler
 callback yourself. Failing to do so might expose your website to XSS
 vulnerabilities.
 
+Using another parser or tokenizer:
+----------------------------------
+Although this bbcode parser gem was primary designed for converting bbcode to
+HTML, it is possible to use another parser or tokenizer while still using the
+same handlers.
+
+Using another tokenizer allows you to parse anything as if it were to be
+bbcode. This feature is still in development, but a nice example is my own
+ycode gem. This gem can be found here:
+`https://github.com/tobyhinloopen/y-code`
+
 Todo:
 -----
 * An easier way to handle text around bbcode tags to, for example, add smileys
