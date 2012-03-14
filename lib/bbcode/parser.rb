@@ -17,12 +17,12 @@ module Bbcode
 			@handler.text text
 		end
 
-		def start_element( tagname, attributes, source )
+		def start_element( tagname, attributes, source = nil )
 			@tags_stack << tagname
 			@handler.start_element tagname, attributes, source
 		end
 
-		def end_element( tagname, source )
+		def end_element( tagname, source = nil )
 			return @tags_stack.last.blank? ? self.text(source) : end_element(@tags_stack.last, source) if tagname.blank?
 			return self.text(source) unless @tags_stack.include?(tagname)
 
