@@ -11,8 +11,6 @@ require "bbcode/html_handler"
 require "bbcode/base"
 require "bbcode/helpers"
 
-include ActionView::Helpers::TagHelper
-
 module Bbcode
 	String.send :include, Bbcode::Helpers
 

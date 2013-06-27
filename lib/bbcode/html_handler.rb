@@ -2,6 +2,8 @@ require "bbcode/handler"
 
 module Bbcode
 	class HtmlHandler < Handler
+		include ActionView::Helpers::TagHelper
+			
 		def initialize( element_handlers = nil )
 			super :"#text" => ->(text){ CGI.escapeHTML(text) }
 			register_element_handlers element_handlers unless element_handlers.nil?
