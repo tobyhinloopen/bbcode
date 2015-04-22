@@ -1,5 +1,10 @@
-A BBcode parser designed to be used with Ruby on Rails
-======================================================
+#### Hi there!
+
+Even though this code is written in 2011, as of April 2015, i'm still using this gem myself. Any
+feature request, bugfix or issues will be handled.
+
+# A BBcode parser designed to be used with Ruby on Rails
+
 A bbcode parser gem you can include in your rails app to parse bbcode-formatted
 strings to HTML or any other format you like.
 
