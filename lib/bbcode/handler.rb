@@ -73,6 +73,10 @@ module Bbcode
 			callable.arity == 2 ? callable.call(element, locals) : callable.call(element)
 		end
 
+		def result
+			get_document.content.to_s
+		end
+
 		protected
 		def current_handler_element
 			@handler_element_stack.last

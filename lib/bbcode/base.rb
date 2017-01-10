@@ -14,7 +14,7 @@ module Bbcode
 			raise "Handler #{handler} isn't registered." if handler.nil?
 			handler.locals = locals.with_indifferent_access
 			@parser.parse @string, handler
-			result = handler.get_document.content.to_s
+			result = handler.result
 			handler.clear
 			result
 		end

@@ -15,5 +15,7 @@ module Bbcode
 			start_element tagname, attributes, source
 			end_element tagname
 		end
+
+		def result(); end
 	end
 end
